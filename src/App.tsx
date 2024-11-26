@@ -82,65 +82,81 @@ export default function App() {
     if (isFirst) {
       if (newValue === secondCurrency.currency) {
         setSecondCurrency({
-          ...secondCurrency,
+          value: firstCurrency.value,
           currency: firstCurrency.currency,
         });
+        setFirstCurrency({
+          currency: newValue,
+          value: secondCurrency.value,
+        });
+      } else {
+        setFirstCurrency({ ...firstCurrency, currency: newValue });
       }
-      setFirstCurrency({ ...firstCurrency, currency: newValue });
     } else {
       if (newValue === firstCurrency.currency) {
         setFirstCurrency({
-          ...firstCurrency,
+          value: secondCurrency.value,
           currency: secondCurrency.currency,
         });
+        setSecondCurrency({
+          currency: newValue,
+          value: firstCurrency.value,
+        });
+      } else {
+        setSecondCurrency({ ...secondCurrency, currency: newValue });
       }
-      setSecondCurrency({ ...secondCurrency, currency: newValue });
     }
   };
 
   return (
-    <div className="h-screen w-full flex flex-col gap-2 justify-center items-center">
-      <div className="flex border">
-        <div>
-          <select
-            className="border-r p-1"
-            onChange={(e) => handleChangeOption(e, true)}
-            value={firstCurrency.currency}
-          >
-            {currencies.map((cur) => (
-              <option key={cur} value={cur}>
-                {cur}
-              </option>
-            ))}
-          </select>
-          <input
-            className="border-r p-1"
-            type="number"
-            value={firstCurrency.value}
-            onChange={handleChange}
-          />
+    <div className="h-screen w-full flex flex-col justify-between items-center p-1">
+      <h1 className="text-3xl font-semibold text-center">Currency Converter</h1>
+      <div className="w-full flex flex-col gap-2 justify-center items-center">
+        <div className="w-full sm:w-1/2 flex border-4 rounded-md">
+          <div className="w-1/2 flex flex-col md:flex-row">
+            <select
+              className="border-b border-r p-1"
+              onChange={(e) => handleChangeOption(e, true)}
+              value={firstCurrency.currency}
+            >
+              {currencies.map((cur) => (
+                <option key={cur} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
+            <input
+              className="w-full border-r p-1 outline-none"
+              type="number"
+              value={firstCurrency.value}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="w-1/2 flex flex-col md:flex-row">
+            <select
+              className="border-b border-r p-1"
+              onChange={(e) => handleChangeOption(e, false)}
+              value={secondCurrency.currency}
+            >
+              {currencies.map((cur) => (
+                <option key={cur} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
+            <input
+              className="w-full p-1 outline-none"
+              type="number"
+              value={secondCurrency.value}
+              readOnly
+            />
+          </div>
         </div>
-        <div>
-          <select
-            className="border-r p-1"
-            onChange={(e) => handleChangeOption(e, false)}
-            value={secondCurrency.currency}
-          >
-            {currencies.map((cur) => (
-              <option key={cur} value={cur}>
-                {cur}
-              </option>
-            ))}
-          </select>
-          <input
-            className="p-1"
-            type="number"
-            value={secondCurrency.value}
-            readOnly
-          />
-        </div>
+        <h1>Last time updated: {timeUpdated}</h1>
       </div>
-      <h1>Last time updated: {timeUpdated}</h1>
+      <h1 className="text-3xl font-semibold text-center">
+        Thx for checking out❤️
+      </h1>
     </div>
   );
 }
