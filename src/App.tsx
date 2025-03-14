@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { IoSwapHorizontal } from "react-icons/io5";
 
 const currencies = [
   "USD",
@@ -109,11 +110,11 @@ export default function App() {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col justify-between items-center p-1">
+    <div className="h-screen container mx-auto flex flex-col justify-between items-center p-1">
       <h1 className="text-3xl font-semibold text-center">Currency Converter</h1>
       <div className="w-full flex flex-col gap-2 justify-center items-center">
-        <div className="w-full sm:w-1/2 flex border-4 rounded-md">
-          <div className="w-1/2 flex flex-col md:flex-row">
+        <div className="w-full sm:w-1/2 flex border-4 justify-between items-center rounded-md">
+          <div className="flex flex-auto flex-col md:flex-row">
             <select
               className="border-b border-r p-1"
               onChange={(e) => handleChangeOption(e, true)}
@@ -132,9 +133,16 @@ export default function App() {
               onChange={handleChange}
             />
           </div>
-          <div className="w-1/2 flex flex-col md:flex-row">
+          <IoSwapHorizontal
+            className="flex-1"
+            onClick={() => {
+              setFirstCurrency(secondCurrency);
+              setSecondCurrency(firstCurrency);
+            }}
+          />
+          <div className="flex flex-auto flex-col md:flex-row">
             <select
-              className="border-b border-r p-1"
+              className="border p-1"
               onChange={(e) => handleChangeOption(e, false)}
               value={secondCurrency.currency}
             >
@@ -144,8 +152,9 @@ export default function App() {
                 </option>
               ))}
             </select>
+
             <input
-              className="w-full p-1 outline-none"
+              className="w-full p-1 outline-none border-l"
               type="number"
               value={secondCurrency.value}
               readOnly
